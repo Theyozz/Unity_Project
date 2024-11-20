@@ -7,7 +7,7 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         // Charge la scène "Game"
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Players");
     }
 
     // Méthode pour quitter le jeu (facultatif)
