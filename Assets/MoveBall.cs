@@ -40,24 +40,40 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("50"))
         {
             score += 50;
-            rb.useGravity = false;
             Debug.Log("Score: " + score);
-        } else if (collision.gameObject.CompareTag("100")) {
+            FreezeBall(); // Appeler la fonction pour figer la balle
+        } 
+        else if (collision.gameObject.CompareTag("100")) 
+        {
             score += 100;
-            rb.useGravity = false;
             Debug.Log("Score: " + score);
-        } else if (collision.gameObject.CompareTag("150")) {
+            FreezeBall();
+        } 
+        else if (collision.gameObject.CompareTag("150")) 
+        {
             score += 150;
-            rb.useGravity = false;
             Debug.Log("Score: " + score);
-        } else if (collision.gameObject.CompareTag("200")) {
+            FreezeBall();
+        } 
+        else if (collision.gameObject.CompareTag("200")) 
+        {
             score += 200;
-            rb.useGravity = false;
             Debug.Log("Score: " + score);
-        } else if (collision.gameObject.CompareTag("300")) {
+            FreezeBall();
+        } 
+        else if (collision.gameObject.CompareTag("300")) 
+        {
             score += 300;
-            rb.useGravity = false;
             Debug.Log("Score: " + score);
+            FreezeBall();
         }
+    }
+
+    // Fonction pour figer la balle
+    private void FreezeBall()
+    {
+        rb.linearVelocity = Vector3.zero; // Stopper tout mouvement
+        rb.angularVelocity = Vector3.zero; // Stopper la rotation
+        rb.isKinematic = true; // Désactiver les forces physiques sur la balle
     }
 }
