@@ -13,12 +13,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = false; // Désactiver la gravité au départ
+        rb.useGravity = false;
     }
 
     void Update()
     {
-        // Déplacement horizontal, seulement si le joueur peut bouger
         if (canMove)
         {
             float moveX = -Input.GetAxis("Horizontal") * speed * Time.deltaTime;
@@ -27,53 +26,48 @@ public class PlayerController : MonoBehaviour
             transform.position = newPosition;
         }
 
-        // Activer la gravité et désactiver le déplacement lorsque la barre d'espace est enfoncée
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.useGravity = true;
-            canMove = false; // Désactiver le déplacement horizontal
+            canMove = false;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("50"))
+        switch (collision.gameObject.tag)
         {
-            score += 50;
-            Debug.Log("Score: " + score);
-            FreezeBall(); // Appeler la fonction pour figer la balle
-        } 
-        else if (collision.gameObject.CompareTag("100")) 
-        {
-            score += 100;
-            Debug.Log("Score: " + score);
-            FreezeBall();
-        } 
-        else if (collision.gameObject.CompareTag("150")) 
-        {
-            score += 150;
-            Debug.Log("Score: " + score);
-            FreezeBall();
-        } 
-        else if (collision.gameObject.CompareTag("200")) 
-        {
-            score += 200;
-            Debug.Log("Score: " + score);
-            FreezeBall();
-        } 
-        else if (collision.gameObject.CompareTag("300")) 
-        {
-            score += 300;
-            Debug.Log("Score: " + score);
-            FreezeBall();
+            case "50":
+                score += 50;
+                Debug.Log("Score: " + score);
+                FreezeBall();
+                break;
+            case "100":
+                score += 100;
+                Debug.Log("Score: " + score);
+                FreezeBall();
+                break;
+            case "150":
+                score += 150;
+                Debug.Log("Score: " + score);
+                FreezeBall();
+                break;
+            case "200":
+                score += 200;
+                Debug.Log("Score: " + score);
+                FreezeBall();
+                break;
+            case "300":
+                score += 300;
+                Debug.Log("Score: " + score);
+                FreezeBall();
+                break;
         }
     }
-
-    // Fonction pour figer la balle
     private void FreezeBall()
     {
-        rb.linearVelocity = Vector3.zero; // Stopper tout mouvement
-        rb.angularVelocity = Vector3.zero; // Stopper la rotation
-        rb.isKinematic = true; // Désactiver les forces physiques sur la balle
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.isKinematic = true;
     }
 }
