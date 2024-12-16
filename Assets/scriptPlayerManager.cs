@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // NÈcessaire pour charger des scËnes
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
-    public Text[] playerTexts; // Array des textes des joueurs
+    public Text[] playerTexts; // Tableau des textes des joueurs
     private int currentPlayerCount = 1; // Nombre actuel de joueurs (Joueur 1 est toujours visible)
 
-    // MÈthode appelÈe par le bouton "Add Player"
+    // M√©thode appel√©e par le bouton "Add Player"
     public void AddPlayer()
     {
         if (currentPlayerCount < playerTexts.Length)
@@ -17,11 +17,44 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    // MÈthode appelÈe par le bouton "Commencer"
+        public void RemovePlayer()
+    {
+        if (currentPlayerCount > 1)
+        {
+            playerTexts[currentPlayerCount - 1].gameObject.SetActive(false);
+            currentPlayerCount--;
+        }
+    }
+
+    // M√©thode appel√©e par le bouton "Commencer"
     public void StartGame()
     {
-        Debug.Log("Partie commencÈe avec " + currentPlayerCount + " joueurs !");
-        // Charger la scËne nommÈe "Game"
-        SceneManager.LoadScene("Game");
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManager.Instance est null. Assurez-vous que le GameManager est pr√©sent dans la sc√®ne.");
+            return;
+        }
+
+        GameManager.Instance.InitializePlayers(currentPlayerCount); // Initialisation des joueurs dans le GameManager
+        Debug.Log("Partie commenc√©e avec " + currentPlayerCount + " joueurs !");
+        SceneManager.LoadScene("Game"); // Charger la sc√®ne "Game"
     }
+
+    private void AssignPointsToActivePlayer(int points)
+    {
+        var currentPlayer = GameManager.Instance.GetCurrentPlayer();
+        if (currentPlayer != null)
+        {
+            currentPlayer.score += points;
+            Debug.Log($"{currentPlayer.name} a marqu√© {points} points ! Score total : {currentPlayer.score}");
+            
+            // V√©rifie si ce joueur a gagn√©
+            GameManager.Instance.CheckForWinner();
+        }
+        else
+        {
+            Debug.LogError("Aucun joueur actif trouv√© !");
+        }
+    }
+
 }
